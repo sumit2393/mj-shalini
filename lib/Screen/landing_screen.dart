@@ -18,19 +18,15 @@ class _LandingScreenState extends State<LandingScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: new Container(
-
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: ExactAssetImage("assets/images/curve.jpg"),
+                fit: BoxFit.cover
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: ExactAssetImage("assets/images/curve.jpg"),
-                        fit: BoxFit.cover
-                    ),
-                  ),
-                  height: 350
-              ),
               Padding(
                 padding: EdgeInsets.all(60),
                 child: Column(
