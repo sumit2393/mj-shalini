@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter_app_mbj/Screen/SignUp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Home.dart';
 import 'initialScreen.dart';
 
@@ -83,154 +81,193 @@ class _LoginState extends State<Login> {
         .height;
     return Scaffold(
       body: Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-              image: new AssetImage("assets/images/background.png"),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.red.withOpacity(0.3), BlendMode.colorBurn)),
+         child: Stack(
+           children: <Widget>[
+             Container(
+           height: 430,
+           decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/curve.jpg"),
+              fit: BoxFit.cover
         ),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "MOBILE NUMBER",
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 30,
-                      ))),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-                padding: EdgeInsets.only(left: 25, right: 25),
-                child: TextField(
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      decorationStyle: TextDecorationStyle.solid,
-                    ),
-                    inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                    ],
-                    maxLength: 10,
-                    decoration: new InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.mobile_screen_share,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        enabledBorder: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            borderSide: BorderSide(color: Colors.white)),
-                        focusedBorder: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            borderSide: BorderSide(color: Colors.white)),
-                        counterText: '',
-                        filled: true,
-                        hintStyle: new TextStyle(color: Colors.white),
-                        hintText: "+91",
-                        fillColor: Color.fromRGBO(140, 0, 0, 0.1)),
-                    onChanged: (input) {
-                      setState(() {
-                        phone = input;
-                      });
-                    })
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 50, right: 50),
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: 'We will send you an ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'One Time Password',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: ' on this phone number.',
-                        ),
-                      ]),
-                )),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-                padding: EdgeInsets.only(left: 160, right: 160),
-                child: Divider(
-                  color: Colors.white,
-                  thickness: 5,
-                )),
-            SizedBox(
-              height: 20,
-            ),
-            new GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Signup()));
-                // Navigator.pushNamed(context,Signup().toString());
-              },
-              child: Text(
-                "Go to register page",
-                style: TextStyle(
-                  color: Colors.white,
-                  decoration: TextDecoration.underline,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: RaisedButton(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(7)),
-                ),
-                child: Container(
-                  width: screenWidth / 1.40,
-                  height: 50,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Continue',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  save();
-                },
-              ),
-            ),
-          ],
         ),
-      ),
+             ),
+             Column(
+               children: <Widget>[
+               Padding(
+                 padding: EdgeInsets.all(190),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: <Widget>[
+                   ],
+                 ),
+               ),
+                    Expanded(
+                     child: Container(
+                       decoration: BoxDecoration(
+                           image: DecorationImage(
+                               image: ExactAssetImage(
+                                   "assets/images/background_maroon.png"),
+                               fit: BoxFit.cover
+                           ),
+                           borderRadius: BorderRadius.only(
+                               topLeft: Radius.circular(80),
+                               topRight: Radius.circular(80))
+                       ),
+                       child: SingleChildScrollView(
+                         child: Padding(
+                           padding: EdgeInsets.all(30),
+                           child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: <Widget>[
+                               Container(
+                                 child: RichText(
+                                     textAlign: TextAlign.center,
+                                     text: TextSpan(
+                                         text: "MOBILE NUMBER",
+                                         style: TextStyle(
+                                           fontStyle: FontStyle.normal,
+                                           fontWeight: FontWeight.bold,
+                                           color: Colors.white,
+                                           fontSize: 30,
+                                         ))),
+                               ),
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               Container(
+                                   padding: EdgeInsets.only(left: 25, right: 25),
+                                   child: TextField(
+                                       keyboardType: TextInputType.number,
+                                       style: TextStyle(
+                                         color: Colors.white,
+                                         fontSize: 20,
+                                         decorationStyle: TextDecorationStyle.solid,
+                                       ),
+                                       inputFormatters: <TextInputFormatter>[
+                                         WhitelistingTextInputFormatter.digitsOnly
+                                       ],
+                                       maxLength: 10,
+                                       decoration: new InputDecoration(
+                                           prefixIcon: Icon(
+                                             Icons.mobile_screen_share,
+                                             color: Colors.white,
+                                             size: 30,
+                                           ),
+                                           enabledBorder: new OutlineInputBorder(
+                                               borderRadius: const BorderRadius.all(
+                                                 const Radius.circular(10.0),
+                                               ),
+                                               borderSide: BorderSide(color: Colors.white)),
+                                           focusedBorder: new OutlineInputBorder(
+                                               borderRadius: const BorderRadius.all(
+                                                 const Radius.circular(10.0),
+                                               ),
+                                               borderSide: BorderSide(color: Colors.white)),
+                                           counterText: '',
+                                           filled: true,
+                                           hintStyle: new TextStyle(color: Colors.white),
+                                           hintText: "+91",
+                                           fillColor: Color.fromRGBO(140, 0, 0, 0.1)),
+                                       onChanged: (input) {
+                                         setState(() {
+                                           phone = input;
+                                         });
+                                       })
+                               ),
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               Container(
+                                   alignment: Alignment.center,
+                                   padding: EdgeInsets.only(left: 50, right: 50),
+                                   child: RichText(
+                                     textAlign: TextAlign.center,
+                                     text: TextSpan(
+                                         text: 'We will send you an ',
+                                         style: TextStyle(
+                                           color: Colors.white,
+                                           fontSize: 16,
+                                         ),
+                                         children: [
+                                           TextSpan(
+                                             text: 'One Time Password',
+                                             style: TextStyle(fontWeight: FontWeight.bold),
+                                           ),
+                                           TextSpan(
+                                             text: ' on this phone number.',
+                                           ),
+                                         ]),
+                                   )),
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               Container(
+                                   padding: EdgeInsets.only(left: 160, right: 160),
+                                   child: Divider(
+                                     color: Colors.white,
+                                     thickness: 5,
+                                   )),
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               new GestureDetector(
+                                 onTap: () {
+                                   Navigator.of(context)
+                                       .push(MaterialPageRoute(builder: (context) => Signup()));
+                                   // Navigator.pushNamed(context,Signup().toString());
+                                 },
+                                 child: Text(
+                                   "Go to register page",
+                                   style: TextStyle(
+                                     color: Colors.white,
+                                     decoration: TextDecoration.underline,
+                                     fontSize: 20,
+                                   ),
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: 20,
+                               ),
+                               Container(
+                                 padding: EdgeInsets.all(20),
+                                 child: RaisedButton(
+                                   color: Colors.white,
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.all(Radius.circular(20)),
+                                   ),
+                                   child: Container(
+                                     width: screenWidth / 1.40,
+                                     height: 50,
+                                     child: Row(
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: <Widget>[
+                                         Text(
+                                           'Continue',
+                                           style: TextStyle(color: Colors.black, fontSize: 20),
+                                         ),
+                                       ],
+                                     ),
+                                   ),
+                                   onPressed: () {
+                                     save();
+                                   },
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       ),
+                     ),
+                   ),
+                 ]),
+               ],
+             ),
+         ),
+
+
     );
   }
 }

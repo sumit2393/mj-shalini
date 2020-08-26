@@ -5,6 +5,7 @@ import './Wishlist.dart';
 import './Notification.dart';
 import './Profile_Screen.dart';
 import './searchproduct.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 List<dynamic> tabsdata = [
   {
@@ -47,10 +48,35 @@ class Initial extends StatefulWidget {
 class _InitialState extends State<Initial> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
+  String username;
+  String phone;
+
+  List socialitems = [
+    "assets/images/drawer/FB.png",
+    "assets/images/drawer/Insta.png",
+    "assets/images/drawer/YOUTUBE.png",
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("initstate of drawer called");
+    getUserdetail();
+  }
+
+  void getUserdetail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString("name");
+
+    setState(() {
+      username = preferences.getString("name");
+      phone = preferences.getString("phone");
     });
   }
 
@@ -103,19 +129,50 @@ class _InitialState extends State<Initial> {
             width: MediaQuery.of(context).size.width - 80,
             child: Drawer(
                 child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 40),
+              padding: EdgeInsets.only(top: 0),
               children: <Widget>[
                 buildDrawer(context),
-                buildListTile(
-                    context, {"name": "Profile", "goto": Profile_Screen()}),
-                Divider(),
-                // buildListTile(context, {"name": "Collection", "goto": ""}),
-                // Divider(),
-                // buildListTile(context, {"name": "Products", "goto": ""}),
-                // Divider(),
-                buildListTile(context, {"name": "About", "goto": ""}),
-                Divider(),
-                buildListTile(context, {"name": "Contact us", "goto": ""}),
+                buildListTile(context, {
+                  "name": "OUR COLLECTION",
+                  "goto": "",
+                  "licon": "assets/images/drawer/Jewellery_Icon.png"
+                }),
+                buildListTile(context, {
+                  "name": "EXPERTISE",
+                  "goto": "",
+                  "licon": "assets/images/drawer/Expertise.png"
+                }),
+                buildListTile(context, {
+                  "name": "NEW ARRIVAL",
+                  "goto": "",
+                  "licon": "assets/images/drawer/New_Arrival.png"
+                }),
+                buildListTile(context, {
+                  "name": "ABOUT US",
+                  "goto": "",
+                  "licon": "assets/images/drawer/About_us.png"
+                }),
+                buildListTile(context, {
+                  "name": "FAQ",
+                  "goto": "",
+                  "licon": "assets/images/drawer/FAQ.png"
+                }),
+                buildListTile(context, {
+                  "name": "TERMS & CONDITION",
+                  "goto": "",
+                  "licon": "assets/images/drawer/Terms_Condition.png"
+                }),
+                buildListTile(context, {
+                  "name": "PROFILE",
+                  "goto": Profile_Screen(),
+                  "licon": "assets/images/drawer/Profile.png"
+                }),
+                buildListTile(context, {
+                  "name": "WHATSAPP CHAT SUPPORT",
+                  "goto": "",
+                  "licon": "assets/images/drawer/Whatsapp.png"
+                }),
+                socialContainer(context)
               ],
             )),
           )),
@@ -142,54 +199,89 @@ class _InitialState extends State<Initial> {
 
   Container buildDrawer(BuildContext context) {
     return Container(
-      height: 150,
+      height: 250,
+      margin: EdgeInsets.only(bottom: 20),
+      color: Theme.of(context).primaryColor,
       child: DrawerHeader(
-        padding: EdgeInsets.all(0),
-        decoration: BoxDecoration(
-            border: Border(
-          bottom: Divider.createBorderSide(context,
-              color: Colors.white, width: 0.0),
-        )),
-        child: Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
+          padding: EdgeInsets.zero,
+          child: Column(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton.icon(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.edit,
                     color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 2.0,
-                          offset: -Offset(1, 1),
-                          color: Colors.white),
-                      BoxShadow(
-                          blurRadius: 2.0,
-                          offset: Offset(1, 1),
-                          color: Colors.grey.shade400)
-                    ]),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back),
-                  color: Theme.of(context).primaryColor,
-                ))),
-      ),
+                    size: 16,
+                  ),
+                  label: Text("Edit",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w400)))
+            ]),
+            CircleAvatar(
+              radius: 35,
+            ),
+            SizedBox(height: 8),
+            Text(
+              username,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text("+91-" + phone,
+                style: TextStyle(color: Colors.white, fontSize: 12))
+          ])),
     );
   }
 
   ListTile buildListTile(BuildContext context, info) {
     return ListTile(
-      title: Text(
-        info["name"],
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+      contentPadding: EdgeInsets.symmetric(horizontal: 40),
+      title: RichText(
+        text: TextSpan(children: [
+          WidgetSpan(
+              child: Padding(
+            padding: const EdgeInsets.only(right: 14.0),
+            child: Image.asset(info["licon"], height: 18.0),
+          )),
+          TextSpan(
+              text: info["name"],
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: Colors.black))
+        ]),
       ),
-      trailing: Icon(Icons.arrow_forward_ios,
-          size: 14, color: Theme.of(context).primaryColor),
       onTap: () {
         Navigator.pop(context);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => info["goto"]));
       },
+    );
+  }
+
+  socialContainer(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: socialitems
+              .map((e) => Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Image.asset(e, height: 18),
+                  ))
+              .toList()),
     );
   }
 }

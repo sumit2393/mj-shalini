@@ -1,10 +1,8 @@
 class ProductList {
-  List<PList> productlist;
-  ProductList({this.productlist});
-  List<PList> getProducts() {
-    return this.productlist;
+     List<PList> productlist;
+     ProductList({this.productlist});
+     List<PList> getProducts() {return this.productlist;
   }
-
   factory ProductList.fromJson(List<dynamic> json) {
     print(json);
     List<PList> productListt = json.map((i) => PList.fromJson(i)).toList();
@@ -12,27 +10,26 @@ class ProductList {
     return ProductList(productlist: productListt);
   }
 }
-
 class PList {
   int id;
   String name;
-  int price;
-  int mainCategoryId;
-  int categoryId;
+  num price;
+  num mainCategoryId;
+  num categoryId;
   String primarySku;
   String secondarySku;
   num grossWeight; // int
   String designCode;
-  int netWeight;
-  int tagPrice;
-  int pieces;
+  num netWeight;
+  num tagPrice;
+  num pieces;
   String articleNecklace;
   num pearlWeight; //double
-  int kundanStones;
-  int carat;
-  int diamondSet;
-  int diamondWeight;
-  int diamondPieces;
+  num kundanStones;
+  num carat;
+  num diamondSet;
+  num diamondWeight;
+  num diamondPieces;
   num colorStoneWeight; //double
   String colorStonePieces;
   num polkiWeight; //double
@@ -43,9 +40,9 @@ class PList {
   Image image;
   bool addedToWishList;
   List<Thumbnails> thumbnails;
-
   PList(
-      {this.id,
+      {
+        this.id,
       this.name,
       this.price,
       this.mainCategoryId,
@@ -74,12 +71,11 @@ class PList {
       this.image,
       this.addedToWishList,
       this.thumbnails});
-
   factory PList.fromJson(Map<String, dynamic> json) {
     print(json);
     print("....-----");
     Image image =
-        json['image'] != null ? new Image.fromJson(json['image']) : null;
+    json['image'] != null ? new Image.fromJson(json['image']) : null;
     var thumbNails = json["thumbnails"] as List;
     List<Thumbnails> thumbnails = thumbNails != null
         ? thumbNails.map((i) => Thumbnails.fromJson(i)).toList()
