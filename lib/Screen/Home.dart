@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import './product.dart';
 import './productdetail.dart';
 import '../provider/httpservices.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -42,40 +42,39 @@ class _HomeState extends State<Home> {
       loading = true;
     });
     fetchMainCategories().then((value) => {maicategories = value.data});
-    fetchBanners().then((value) =>
-    {
-      setState(() {
-        loading = false;
-      }),
-      carousellist = value.upcomingDesigns,
-      newtrends = value.newTrends,
-    });
-
+    fetchBanners().then((value) => {
+          setState(() {
+            loading = false;
+          }),
+          carousellist = value.upcomingDesigns,
+          newtrends = value.newTrends,
+        });
   }
+
   getUserid() async {
     print("userid function called");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userid = preferences.getInt("id");
     print("userid" + userid.toString());
     fetchFeaturedProducts(userid).then((value) async => {
-      print("featured products"),
-      print(value.productlist),
-      setState(() {
-        categorieslist = value.productlist;
-        categorieslist.map((e) => print("dsds" + e));
-      }),
-      value.productlist.map((e) => print("ewe" + e.name))
-    });
-
+          print("featured products"),
+          print(value.productlist),
+          setState(() {
+            categorieslist = value.productlist;
+            categorieslist.map((e) => print("dsds" + e));
+          }),
+          value.productlist.map((e) => print("ewe" + e.name))
+        });
   }
 
   makeCall(productid) {
-    requestCallback(userid, productid).then((value)  {
-          if (value["status"] == "success")
-            {registerToast(value["data"]["message"]);}
-          else
-            {registerToast("Something went wrong");}
-        });
+    requestCallback(userid, productid).then((value) {
+      if (value["status"] == "success") {
+        registerToast(value["data"]["message"]);
+      } else {
+        registerToast("Something went wrong");
+      }
+    });
   }
 
   registerToast(String toast) {

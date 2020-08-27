@@ -3,24 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_mbj/Screen/SignUp.dart';
 import 'package:flutter_app_mbj/Screen/login.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+
 //import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
+
 class _LandingScreenState extends State<LandingScreen> {
   int _currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenheight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         child: Stack(
@@ -30,8 +25,7 @@ class _LandingScreenState extends State<LandingScreen> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/curve.jpg"),
-                    fit: BoxFit.cover
-                ),
+                    fit: BoxFit.cover),
               ),
             ),
             Column(
@@ -41,8 +35,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   padding: EdgeInsets.all(190),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                    ],
+                    children: <Widget>[],
                   ),
                 ),
                 Expanded(
@@ -51,12 +44,10 @@ class _LandingScreenState extends State<LandingScreen> {
                         image: DecorationImage(
                             image: ExactAssetImage(
                                 "assets/images/background_maroon.png"),
-                            fit: BoxFit.cover
-                        ),
+                            fit: BoxFit.cover),
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(80),
-                            topRight: Radius.circular(80))
-                    ),
+                            topRight: Radius.circular(80))),
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: EdgeInsets.all(30),
@@ -68,13 +59,12 @@ class _LandingScreenState extends State<LandingScreen> {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [BoxShadow(
-                                      color: Color.fromRGBO(225, 95, 27, .3),
-                                      blurRadius: 20,
-                                      offset: Offset(0, 10)
-                                  )
-                                  ]
-                              ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color.fromRGBO(225, 95, 27, .3),
+                                        blurRadius: 20,
+                                        offset: Offset(0, 10))
+                                  ]),
                             ),
                             Text(
                               "LUXURY DESIGNS",
@@ -100,17 +90,15 @@ class _LandingScreenState extends State<LandingScreen> {
                               child: ButtonTheme(
                                   minWidth: 300.0,
                                   height: 50.0,
-                                  buttonColor: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  buttonColor: Theme.of(context).primaryColor,
                                   child: RaisedButton(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: <Widget>[
                                           Icon(
                                             Icons.phone,
@@ -140,17 +128,15 @@ class _LandingScreenState extends State<LandingScreen> {
                               padding: EdgeInsets.only(left: 50, right: 50),
                               child: ButtonTheme(
                                   height: 50.0,
-                                  buttonColor: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  buttonColor: Theme.of(context).primaryColor,
                                   child: RaisedButton(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: <Widget>[
                                           Icon(
                                             Icons.person,
@@ -166,7 +152,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                               fontSize: 20,
                                             ),
                                           ),
-                                         ],
+                                        ],
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).push(

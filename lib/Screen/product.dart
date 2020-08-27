@@ -4,7 +4,7 @@ import './productdetail.dart';
 import '../provider/httpservices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import './searchproduct.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ProduclList extends StatefulWidget {
@@ -61,10 +61,9 @@ class _ProduclListstate extends State<ProduclList> {
   }
 
   getUserid() async {
-    print("userid function called");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userid = preferences.getInt("id");
-    print("userid" + userid.toString());
+
     getCategories(widget.mdata.id, "yes");
   }
 
@@ -74,9 +73,6 @@ class _ProduclListstate extends State<ProduclList> {
     });
     fetchCategories(id, userid)
         .then((value) => {
-              print("getdata======>>>>>>"),
-              print(value.subcategories.length),
-              //print(value.allproducts),
               allCate = new Subcategories.fromJson({
                 "id": 10,
                 "mainCategoryId": 1,
@@ -86,10 +82,8 @@ class _ProduclListstate extends State<ProduclList> {
                 "updatedAt": ""
               }),
               value.subcategories.insert(0, allCate),
-
               if (change == "yes")
                 {
-                  print("you are in if par"),
                   setState(() {
                     loading = false;
                     productlist = value.allproducts;
@@ -100,7 +94,6 @@ class _ProduclListstate extends State<ProduclList> {
                 }
               else
                 {
-                  print("you are in else par"),
                   setState(() {
                     loading = false;
                     productlist = value.allproducts;
@@ -130,8 +123,6 @@ class _ProduclListstate extends State<ProduclList> {
   }
 
   addToWishlist(productid, isindex, isadded) {
-    print("called");
-    print(isadded);
     if (!isadded) {
       addWish(userid, productid).then((value) => {
             print(value),
@@ -146,10 +137,7 @@ class _ProduclListstate extends State<ProduclList> {
               {registerToast("Something went wrong Please try again")}
           });
     } else {
-      print("in else part");
-
       removeWish(userid.toString(), productid.toString()).then((value) => {
-            print(value),
             if (value["status"] == "success")
               {
                 setState(() {
@@ -537,11 +525,12 @@ class _ProduclListstate extends State<ProduclList> {
                                                   color: Colors.white,
                                                   image: DecorationImage(
                                                       fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          productlist[index]
-                                                              .image
-                                                              .url,
-                                                          scale: 30.0)))),
+                                                      image:
+                                                          CachedNetworkImageProvider(
+                                                              productlist[index]
+                                                                  .image
+                                                                  .url,
+                                                              scale: 30.0)))),
                                         )),
                                         // Text(productlist[index].name),
                                         Padding(

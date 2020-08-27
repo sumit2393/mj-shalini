@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'login.dart';
-import 'package:flutter_app_mbj/Provider/httpservices.dart';
+
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +17,8 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   String _date = "Date Of Birth";
-  String _anniversary="Anniversary";
-  String email, name, number, dob,anniversary_date;
+  String _anniversary = "Anniversary";
+  String email, name, number, dob, anniversary_date;
   bool _secureText = true;
 
   TextEditingController _dobController = new TextEditingController();
@@ -29,29 +29,30 @@ class _SignupState extends State<Signup> {
       _secureText = !_secureText;
     });
   }
+
   @override
   void initState() {
     super.initState();
     email = "";
     name = "";
-    dob="";
-    number="";
-    anniversary_date="";
+    dob = "";
+    number = "";
+    anniversary_date = "";
   }
 
   save() async {
-
-    Map<dynamic,dynamic> rawBody = {
+    Map<dynamic, dynamic> rawBody = {
       "name": name,
       "email": email,
       "dob": dob,
-      "phone":number,
-      "anniversary_date":anniversary_date,
+      "phone": number,
+      "anniversary_date": anniversary_date,
     };
-    final response = await http.post("http://portal.mbj.in/api/auth/sign-up", body: rawBody);
+    final response =
+        await http.post("http://portal.mbj.in/api/auth/sign-up", body: rawBody);
     var data = jsonDecode(response.body);
     print(data.toString());
-    if(data["status"]=='success'){
+    if (data["status"] == 'success') {
       String message = data['data']['message'];
 
 //      setState(() {
@@ -61,7 +62,7 @@ class _SignupState extends State<Signup> {
 
       showDialog(
           context: context,
-          builder: (context){
+          builder: (context) {
             return Container(
               height: 100,
               child: SimpleDialog(
@@ -71,23 +72,23 @@ class _SignupState extends State<Signup> {
                       "Ok",
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext ctx) => Login()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => Login()));
                     },
                   )
                 ],
                 title: Text(message),
               ),
             );
-          }
-      );
-    }else{
+          });
+    } else {
       List<dynamic> errors = data["errors"];
       errors.forEach((element) {
         registerToast(element["errorMessage"]);
       });
     }
-
   }
 
   registerToast(String toast) {
@@ -99,9 +100,9 @@ class _SignupState extends State<Signup> {
         backgroundColor: Colors.red,
         textColor: Colors.white);
   }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -251,7 +252,7 @@ class _SignupState extends State<Signup> {
                     ),
                     onChanged: (input) {
                       setState(() {
-                        number=input;
+                        number = input;
                       });
                     },
                   ),
@@ -286,21 +287,23 @@ class _SignupState extends State<Signup> {
                         color: Colors.white,
                       ),
                     ),
-                    onTap: (){
-                      DatePicker.showDatePicker(context,
+                    onTap: () {
+                      DatePicker.showDatePicker(
+                        context,
                         theme: DatePickerTheme(
                           containerHeight: 250.0,
                         ),
                         showTitleActions: true,
                         minTime: DateTime(1950, 1, 1),
-                        maxTime: DateTime(2050, 12, 31), onConfirm: (date) {
+                        maxTime: DateTime(2050, 12, 31),
+                        onConfirm: (date) {
                           print('confirm $date');
                           var date1 = date.toString();
-                          var date2=date1.split(" ");
+                          var date2 = date1.split(" ");
                           print(date2);
                           setState(() {
-                            dob=date2[0].toString();
-                            _dobController.text=date2[0].toString();
+                            dob = date2[0].toString();
+                            _dobController.text = date2[0].toString();
                           });
                           _date = '${date.year} - ${date.month} - ${date.day}';
                         },
@@ -308,7 +311,7 @@ class _SignupState extends State<Signup> {
                     },
                     onChanged: (input) {
                       setState(() {
-                        dob=input;
+                        dob = input;
                       });
                     },
                   ),
@@ -343,22 +346,24 @@ class _SignupState extends State<Signup> {
                         color: Colors.white,
                       ),
                     ),
-                    onTap: (){
-                      DatePicker.showDatePicker(context,
+                    onTap: () {
+                      DatePicker.showDatePicker(
+                        context,
                         theme: DatePickerTheme(
                           containerHeight: 250.0,
                         ),
                         showTitleActions: true,
                         minTime: DateTime(1950, 1, 1),
-                        maxTime: DateTime(2050, 12, 31), onConfirm: (date) {
+                        maxTime: DateTime(2050, 12, 31),
+                        onConfirm: (date) {
                           print('confirm $date');
                           var ann_date1 = date.toString();
-                          var date2=ann_date1.split(" ");
+                          var date2 = ann_date1.split(" ");
                           print(date2);
 
                           _date = '${date.year} - ${date.month} - ${date.day}';
                           setState(() {
-                            anniversary_date=date2[0].toString();
+                            anniversary_date = date2[0].toString();
                             _anniversaryController.text = date2[0].toString();
                           });
                         },
@@ -367,7 +372,7 @@ class _SignupState extends State<Signup> {
                     keyboardType: null,
                     onChanged: (input) {
                       setState(() {
-                        anniversary_date=input;
+                        anniversary_date = input;
                       });
                     },
                   ),
@@ -386,8 +391,9 @@ class _SignupState extends State<Signup> {
                       onPressed: () {
                         save();
                       },
-                      child:
-                      const Text('Submit', style: TextStyle(fontSize: 20,color: Color(0xFF670e1e))),
+                      child: const Text('Submit',
+                          style: TextStyle(
+                              fontSize: 20, color: Color(0xFF670e1e))),
                     ),
                   ),
                 ),

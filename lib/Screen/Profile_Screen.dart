@@ -1,40 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mbj/Screen/landing_screen.dart';
-import 'package:flutter_app_mbj/main.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_app_mbj/Screen/login.dart';
+
 class Profile_Screen extends StatefulWidget {
   @override
   _Profile_ScreenState createState() => _Profile_ScreenState();
 }
+
 class _Profile_ScreenState extends State<Profile_Screen> {
   int userid;
-  String email = "",
-      name = "",
-      phone="",
-      dob="",
-      anniversary_date="";
+  String email = "", name = "", phone = "", dob = "", anniversary_date = "";
   @override
   void initState() {
     super.initState();
     restore();
   }
+
   restore() async {
     print("data called");
 
     final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     setState(() {
-      userid = sharedPrefs.getInt("id") ;
+      userid = sharedPrefs.getInt("id");
       email = sharedPrefs.getString("email");
       print(email);
       name = sharedPrefs.getString("name");
-      phone= sharedPrefs.getString("phone");
-      anniversary_date=sharedPrefs.getString("anniversary_date");
-      dob=sharedPrefs.getString("dob");
+      phone = sharedPrefs.getString("phone");
+      anniversary_date = sharedPrefs.getString("anniversary_date");
+      dob = sharedPrefs.getString("dob");
     });
     //TODO: More restoring of settings would go here...
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,28 +99,41 @@ class _Profile_ScreenState extends State<Profile_Screen> {
               child: ListView(
                 children: ListTile.divideTiles(context: context, tiles: [
                   ListTile(
-                    title: Text("Email:                                    " +'$email', style: TextStyle(fontWeight: FontWeight.w600),),
+                    title: Text(
+                      "Email:                                    " + '$email',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     //    subtitle: Text('$email',style: TextStyle( color:Color(0xFF670e1e),fontWeight: FontWeight.w600),),
-
                   ),
                   ListTile(
-                    title: Text("Date Of Birth:                      " +'$dob',style: TextStyle(fontWeight: FontWeight.w600),),
+                    title: Text(
+                      "Date Of Birth:                      " + '$dob',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     // subtitle: Text('$dob',style: TextStyle( color:Color(0xFF670e1e),fontWeight: FontWeight.w600),),
                   ),
                   ListTile(
-                    title: Text("Anniversary date:               " + '$anniversary_date',style: TextStyle(fontWeight: FontWeight.w600),),
+                    title: Text(
+                      "Anniversary date:               " + '$anniversary_date',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     // subtitle: Text('$anniversary_date',style: TextStyle( color:Color(0xFF670e1e),fontWeight: FontWeight.w600),),
                   ),
-
                   ListTile(
-                    title: Text('Log out',style: TextStyle( fontSize:18,fontWeight: FontWeight.w600),),
-                    onTap: ()  async{
-
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                    title: Text(
+                      'Log out',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       prefs?.clear();
                       prefs.setBool('isLoggedIn', false);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext ctx) => LandingScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => LandingScreen()));
                     },
                   ),
                 ]).toList(),

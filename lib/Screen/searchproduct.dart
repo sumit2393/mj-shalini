@@ -23,18 +23,17 @@ class _SearchProductState extends State<SearchProduct> {
   updateSearchQuery(value) {
     print("value for textfield" + value);
     if (value.length != 0) {
-      search(value, userid).then((value)  {
-            print(value.status);
-            if (value.status == "success")
-              {
-                print("you are in if part");
-                print(value.status);
-                print(value.data.length);
-                setState(() {
-                  productlist = value.data;
-                });
-              }
+      search(value, userid).then((value) {
+        print(value.status);
+        if (value.status == "success") {
+          print("you are in if part");
+          print(value.status);
+          print(value.data.length);
+          setState(() {
+            productlist = value.data;
           });
+        }
+      });
     } else {
       setState(() {
         productlist = [];
@@ -51,7 +50,6 @@ class _SearchProductState extends State<SearchProduct> {
 
   @override
   Widget build(BuildContext context) {
-    double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

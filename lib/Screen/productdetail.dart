@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../provider/httpservices.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 class ProductDetail extends StatefulWidget {
   final productdata;
@@ -18,59 +19,112 @@ class ProductDetailState extends State<ProductDetail> {
   @override
   void initState() {
     super.initState();
-    print(widget.productdata);
+
     getUserid();
   }
 
   getUserid() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userid = preferences.getInt("id");
-    print("userid" + userid.toString());
   }
 
   requestCall() {
-    requestCallback(widget.productdata.id, userid).then((value) => {
-      if (value["status"] == "success")
-        {registerToast(value["data"]["message"])}
-      else
-        {registerToast("Something went wrong")}
-    });
+    // requestCallback(widget.productdata.id, userid).then((value) => {
+    //       if (value["status"] == "success")
+    //         {registerToast(value["data"]["message"])}
+    //       else
+    //         {registerToast("Something went wrong")}
+    //     });
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 20),
+            child: Stack(overflow: Overflow.visible, children: [
+              Container(
+                height: 360,
+                width: double.infinity,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 90, bottom: 20),
+                      child: const Text("Information",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                    const Text("We will connect you in next 24hours",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white)),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 35),
+                      color: Colors.white,
+                      height: 1.5,
+                      width: 40.0,
+                    ),
+                    Contactbutton(label: "CALL NOW"),
+                    SizedBox(height: 12),
+                    Contactbutton(label: "CHAT WITH WHATSAPP"),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: -30,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  width: 60,
+                  child: Icon(Icons.info_outline),
+                ),
+              ),
+            ]),
+          );
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)));
   }
 
   addToWishlist(productid, isadded) {
-    print("called");
-    print(isadded);
     if (!isadded) {
       addWish(userid, productid).then((value) => {
-        print(value),
-        if (value["status"] == "success")
-          {
-            registerToast(value["data"]["message"]),
-            setState(() {
-              widget.productdata.addedToWishList = true;
-            })
-          }
-        else
-          {registerToast("Something went wrong Please try again")}
-      });
+            print(value),
+            if (value["status"] == "success")
+              {
+                registerToast(value["data"]["message"]),
+                setState(() {
+                  widget.productdata.addedToWishList = true;
+                })
+              }
+            else
+              {registerToast("Something went wrong Please try again")}
+          });
     } else {
       print("in else part");
       removeWish(userid.toString(), productid.toString()).then((value) => {
-        print(value),
-        if (value["status"] == "success")
-          {
-            setState(() {
-              registerToast(value["data"]["message"]);
-              setState(() {
-                widget.productdata.addedToWishList = false;
-              });
-            })
-          }
-        else
-          {registerToast("Something went wrong")}
-      });
+            print(value),
+            if (value["status"] == "success")
+              {
+                setState(() {
+                  registerToast(value["data"]["message"]);
+                  setState(() {
+                    widget.productdata.addedToWishList = false;
+                  });
+                })
+              }
+            else
+              {registerToast("Something went wrong")}
+          });
     }
   }
+
   registerToast(String toast) {
     return Fluttertoast.showToast(
         msg: toast,
@@ -79,22 +133,24 @@ class ProductDetailState extends State<ProductDetail> {
         backgroundColor: Color(0xFF670e1e),
         textColor: Colors.white);
   }
+
   zoomImage(data) {
     scaffoldState.currentState.showBottomSheet(
-          (BuildContext context) {
+      (BuildContext context) {
         return Center(
             child: Container(
                 height: 400,
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: PhotoView(
                   backgroundDecoration:
-                  BoxDecoration(color: Colors.transparent),
+                      BoxDecoration(color: Colors.transparent),
                   imageProvider: CachedNetworkImageProvider(data),
                 )));
       },
       backgroundColor: Colors.grey[200],
     );
   }
+
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -156,7 +212,7 @@ class ProductDetailState extends State<ProductDetail> {
                             }))),
                 Positioned(
                     top: 16,
-                     right: 16,
+                    right: 16,
                     child: GestureDetector(
                       onTap: () {
                         addToWishlist(widget.productdata.id,
@@ -279,7 +335,7 @@ class ProductDetailState extends State<ProductDetail> {
                     quantity({
                       "title": "DIAMOND",
                       "value":
-                      " | " + widget.productdata.carat.toString() + "ct",
+                          " | " + widget.productdata.carat.toString() + "ct",
                       "image": "assets/images/product/diamond.png"
                     }),
                     quantity({
@@ -380,6 +436,31 @@ class ProductDetailState extends State<ProductDetail> {
   }
 }
 
+class Contactbutton extends StatelessWidget {
+  final String label;
+  const Contactbutton({Key key, this.label}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 40,
+        width: 220,
+        child: RaisedButton(
+          elevation: 8,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            label,
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+        ));
+  }
+}
+
 Widget rateWidget(data) {
   print(data);
   return Container(
@@ -418,7 +499,7 @@ Widget request(context) {
               textAlign: TextAlign.center,
               text: TextSpan(
                 style:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+                    TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
                 children: [
                   WidgetSpan(
                       child: Padding(
@@ -463,20 +544,20 @@ Widget jewellerybox(zoom, url, screenWidth) {
 Widget quantity(data) {
   return Expanded(
       child: Column(children: <Widget>[
-        Image.asset(
-          data["image"],
-          height: 18,
-        ),
-        Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              data["title"].toString(),
-              style: TextStyle(
-                  color: Colors.black, fontSize: 10, fontWeight: FontWeight.w600),
-            )),
-        Text(data["value"].toString(),
-            style: TextStyle(color: Colors.black, fontSize: 8))
-      ]));
+    Image.asset(
+      data["image"],
+      height: 18,
+    ),
+    Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          data["title"].toString(),
+          style: TextStyle(
+              color: Colors.black, fontSize: 10, fontWeight: FontWeight.w600),
+        )),
+    Text(data["value"].toString(),
+        style: TextStyle(color: Colors.black, fontSize: 8))
+  ]));
 }
 
 Widget wishlist(context) {

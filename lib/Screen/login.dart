@@ -7,26 +7,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app_mbj/Screen/SignUp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Home.dart';
+
 import 'initialScreen.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
+
 class _LoginState extends State<Login> {
-  String phone ,id;
+  String phone, id;
   @override
   void initState() {
     super.initState();
     phone = "phone";
   }
+
   save() async {
-    Map<dynamic,dynamic> rawBody = {
+    Map<dynamic, dynamic> rawBody = {
       "phone": phone,
     };
-    final response = await http.post(
-        "http://portal.mbj.in/api/auth/get-otp", body: rawBody);
+    final response =
+        await http.post("http://portal.mbj.in/api/auth/get-otp", body: rawBody);
     var data = jsonDecode(response.body);
     print(data.toString());
     if (data["status"] == 'success') {
@@ -44,22 +46,25 @@ class _LoginState extends State<Login> {
                       "Ok",
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext ctx) => LoginMobileOTPScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) =>
+                                  LoginMobileOTPScreen()));
                     },
                   )
                 ],
                 title: Text(message),
               ),
             );
-          }
-      );
+          });
     } else {
       {
         registerToast("You are not an active user. Please contact admin");
       }
     }
   }
+
   registerToast(String toast) {
     return Fluttertoast.showToast(
         msg: toast,
@@ -69,205 +74,199 @@ class _LoginState extends State<Login> {
         backgroundColor: Colors.red,
         textColor: Colors.white);
   }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-         child: Stack(
-           children: <Widget>[
-             Container(
-           height: 430,
-           decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/curve.jpg"),
-              fit: BoxFit.cover
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 430,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/curve.jpg"),
+                    fit: BoxFit.cover),
+              ),
+            ),
+            Column(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(190),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: ExactAssetImage(
+                              "assets/images/background_maroon.png"),
+                          fit: BoxFit.cover),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(80),
+                          topRight: Radius.circular(80))),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                    text: "MOBILE NUMBER",
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                    ))),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(left: 25, right: 25),
+                              child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                  ),
+                                  inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                  ],
+                                  maxLength: 10,
+                                  decoration: new InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.mobile_screen_share,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
+                                      enabledBorder: new OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            const Radius.circular(10.0),
+                                          ),
+                                          borderSide:
+                                              BorderSide(color: Colors.white)),
+                                      focusedBorder: new OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            const Radius.circular(10.0),
+                                          ),
+                                          borderSide:
+                                              BorderSide(color: Colors.white)),
+                                      counterText: '',
+                                      filled: true,
+                                      hintStyle:
+                                          new TextStyle(color: Colors.white),
+                                      hintText: "+91",
+                                      fillColor:
+                                          Color.fromRGBO(140, 0, 0, 0.1)),
+                                  onChanged: (input) {
+                                    setState(() {
+                                      phone = input;
+                                    });
+                                  })),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(left: 50, right: 50),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                    text: 'We will send you an ',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'One Time Password',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      TextSpan(
+                                        text: ' on this phone number.',
+                                      ),
+                                    ]),
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(left: 160, right: 160),
+                              child: Divider(
+                                color: Colors.white,
+                                thickness: 5,
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          new GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Signup()));
+                              // Navigator.pushNamed(context,Signup().toString());
+                            },
+                            child: Text(
+                              "Go to register page",
+                              style: TextStyle(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            child: RaisedButton(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: Container(
+                                width: screenWidth / 1.40,
+                                height: 50,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Continue',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                save();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+          ],
         ),
-        ),
-             ),
-             Column(
-               children: <Widget>[
-               Padding(
-                 padding: EdgeInsets.all(190),
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: <Widget>[
-                   ],
-                 ),
-               ),
-                    Expanded(
-                     child: Container(
-                       decoration: BoxDecoration(
-                           image: DecorationImage(
-                               image: ExactAssetImage(
-                                   "assets/images/background_maroon.png"),
-                               fit: BoxFit.cover
-                           ),
-                           borderRadius: BorderRadius.only(
-                               topLeft: Radius.circular(80),
-                               topRight: Radius.circular(80))
-                       ),
-                       child: SingleChildScrollView(
-                         child: Padding(
-                           padding: EdgeInsets.all(30),
-                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.center,
-                             mainAxisAlignment: MainAxisAlignment.center,
-                             children: <Widget>[
-                               Container(
-                                 child: RichText(
-                                     textAlign: TextAlign.center,
-                                     text: TextSpan(
-                                         text: "MOBILE NUMBER",
-                                         style: TextStyle(
-                                           fontStyle: FontStyle.normal,
-                                           fontWeight: FontWeight.bold,
-                                           color: Colors.white,
-                                           fontSize: 30,
-                                         ))),
-                               ),
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               Container(
-                                   padding: EdgeInsets.only(left: 25, right: 25),
-                                   child: TextField(
-                                       keyboardType: TextInputType.number,
-                                       style: TextStyle(
-                                         color: Colors.white,
-                                         fontSize: 20,
-                                         decorationStyle: TextDecorationStyle.solid,
-                                       ),
-                                       inputFormatters: <TextInputFormatter>[
-                                         WhitelistingTextInputFormatter.digitsOnly
-                                       ],
-                                       maxLength: 10,
-                                       decoration: new InputDecoration(
-                                           prefixIcon: Icon(
-                                             Icons.mobile_screen_share,
-                                             color: Colors.white,
-                                             size: 30,
-                                           ),
-                                           enabledBorder: new OutlineInputBorder(
-                                               borderRadius: const BorderRadius.all(
-                                                 const Radius.circular(10.0),
-                                               ),
-                                               borderSide: BorderSide(color: Colors.white)),
-                                           focusedBorder: new OutlineInputBorder(
-                                               borderRadius: const BorderRadius.all(
-                                                 const Radius.circular(10.0),
-                                               ),
-                                               borderSide: BorderSide(color: Colors.white)),
-                                           counterText: '',
-                                           filled: true,
-                                           hintStyle: new TextStyle(color: Colors.white),
-                                           hintText: "+91",
-                                           fillColor: Color.fromRGBO(140, 0, 0, 0.1)),
-                                       onChanged: (input) {
-                                         setState(() {
-                                           phone = input;
-                                         });
-                                       })
-                               ),
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               Container(
-                                   alignment: Alignment.center,
-                                   padding: EdgeInsets.only(left: 50, right: 50),
-                                   child: RichText(
-                                     textAlign: TextAlign.center,
-                                     text: TextSpan(
-                                         text: 'We will send you an ',
-                                         style: TextStyle(
-                                           color: Colors.white,
-                                           fontSize: 16,
-                                         ),
-                                         children: [
-                                           TextSpan(
-                                             text: 'One Time Password',
-                                             style: TextStyle(fontWeight: FontWeight.bold),
-                                           ),
-                                           TextSpan(
-                                             text: ' on this phone number.',
-                                           ),
-                                         ]),
-                                   )),
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               Container(
-                                   padding: EdgeInsets.only(left: 160, right: 160),
-                                   child: Divider(
-                                     color: Colors.white,
-                                     thickness: 5,
-                                   )),
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               new GestureDetector(
-                                 onTap: () {
-                                   Navigator.of(context)
-                                       .push(MaterialPageRoute(builder: (context) => Signup()));
-                                   // Navigator.pushNamed(context,Signup().toString());
-                                 },
-                                 child: Text(
-                                   "Go to register page",
-                                   style: TextStyle(
-                                     color: Colors.white,
-                                     decoration: TextDecoration.underline,
-                                     fontSize: 20,
-                                   ),
-                                 ),
-                               ),
-                               SizedBox(
-                                 height: 20,
-                               ),
-                               Container(
-                                 padding: EdgeInsets.all(20),
-                                 child: RaisedButton(
-                                   color: Colors.white,
-                                   shape: RoundedRectangleBorder(
-                                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                                   ),
-                                   child: Container(
-                                     width: screenWidth / 1.40,
-                                     height: 50,
-                                     child: Row(
-                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: <Widget>[
-                                         Text(
-                                           'Continue',
-                                           style: TextStyle(color: Colors.black, fontSize: 20),
-                                         ),
-                                       ],
-                                     ),
-                                   ),
-                                   onPressed: () {
-                                     save();
-                                   },
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
-                     ),
-                   ),
-                 ]),
-               ],
-             ),
-         ),
-
-
+      ),
     );
   }
 }
@@ -278,35 +277,43 @@ class LoginMobileOTPScreen extends StatefulWidget {
 }
 
 class _LoginMobileOTPScreenState extends State<LoginMobileOTPScreen> {
-  String phone, otp,id;
+  String phone, otp, id;
   @override
   void initState() {
     super.initState();
   }
-  Otp()async {
 
+  Otp() async {
     Map<dynamic, dynamic> rawBody = {
-      "otp" : otp,
-
+      "otp": otp,
     };
 
     print(rawBody);
-    final response = await http.post("http://portal.mbj.in/api/auth/verify-otp-to-login", body: rawBody);
+    final response = await http.post(
+        "http://portal.mbj.in/api/auth/verify-otp-to-login",
+        body: rawBody);
 
-    var data= jsonDecode(response.body);
+    var data = jsonDecode(response.body);
     print(data);
 
-    if(data["status"]=='success') {
-
+    if (data["status"] == 'success') {
       //String user = data['data']['user'];
-      savePref(data["data"]["user"]["id"],data["data"]["user"] ["email"],data["data"]["user"]["name"],data["data"]["user"]["phone"],data["data"]["user"]["dob"],data["data"]["user"]["anniversary_date"]);
+      savePref(
+          data["data"]["user"]["id"],
+          data["data"]["user"]["email"],
+          data["data"]["user"]["name"],
+          data["data"]["user"]["phone"],
+          data["data"]["user"]["dob"],
+          data["data"]["user"]["anniversary_date"]);
       setState(() {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (BuildContext ctx) => Initial()));
       });
     }
   }
-  savePref(int user_id, String email, String name, String phone,String dob, String anniversary_date ) async {
+
+  savePref(int user_id, String email, String name, String phone, String dob,
+      String anniversary_date) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences?.setBool("isLoggedIn", true);
     preferences.setInt("id", user_id);
@@ -317,6 +324,7 @@ class _LoginMobileOTPScreenState extends State<LoginMobileOTPScreen> {
     preferences.setString("anniversary_date", anniversary_date);
     preferences.commit();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -332,10 +340,8 @@ class _LoginMobileOTPScreenState extends State<LoginMobileOTPScreen> {
                 colorFilter: ColorFilter.mode(
                     Colors.red.withOpacity(0.3), BlendMode.colorBurn)),
           ),
-
           child: Container(
-            decoration: new BoxDecoration(
-            ),
+            decoration: new BoxDecoration(),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -359,14 +365,14 @@ class _LoginMobileOTPScreenState extends State<LoginMobileOTPScreen> {
                   showFieldAsBox: true,
                   fields: 4,
                   onSubmit: (String pin) {
-                    otp=pin;
+                    otp = pin;
                   }, // end onSubmit
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap:(){
+                  onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) => Login()));
                     // Navigator.pushNamed(context,Signup().toString());
@@ -436,12 +442,12 @@ class PinEntryTextField extends StatefulWidget {
 
   PinEntryTextField(
       {this.lastPin,
-        this.fields: 4,
-        this.onSubmit,
-        this.fieldWidth: 40.0,
-        this.fontSize: 20.0,
-        this.isTextObscure: false,
-        this.showFieldAsBox: false})
+      this.fields: 4,
+      this.onSubmit,
+      this.fieldWidth: 40.0,
+      this.fontSize: 20.0,
+      this.isTextObscure: false,
+      this.showFieldAsBox: false})
       : assert(fields > 0);
 
   @override
@@ -479,6 +485,7 @@ class PinEntryTextFieldState extends State<PinEntryTextField> {
     _textControllers.forEach((TextEditingController t) => t.dispose());
     super.dispose();
   }
+
   Widget generateTextFields(BuildContext context) {
     List<Widget> textFields = List.generate(widget.fields, (int i) {
       return buildTextField(i, context, i == 0);
@@ -493,9 +500,10 @@ class PinEntryTextFieldState extends State<PinEntryTextField> {
         verticalDirection: VerticalDirection.down,
         children: textFields);
   }
+
   void clearTextFields() {
     _textControllers.forEach(
-            (TextEditingController tEditController) => tEditController.clear());
+        (TextEditingController tEditController) => tEditController.clear());
     _pin.clear();
   }
 
@@ -575,6 +583,7 @@ class PinEntryTextFieldState extends State<PinEntryTextField> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return textfields;
