@@ -310,11 +310,12 @@ class _HomeState extends State<Home> {
                               image:
                                   AssetImage("assets/images/Homepage/5.png")))),
                   Text(
-                    "Find a jewellery design" + "\n" + "that's perfectly you",
+                    "MBJ COFFEE BREAK",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Container(
+                      margin: EdgeInsets.only(top: 40),
                       color: Colors.white,
                       child: ListView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -339,41 +340,72 @@ class _HomeState extends State<Home> {
                                   Expanded(
                                       child: Container(
                                     color: Colors.white,
-                                    margin: EdgeInsets.only(left: 15),
+                                    margin: EdgeInsets.only(left: 15, top: 20),
                                     height: 150,
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "NEW" + "\n" + "TRENDS",
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Padding(
+                                    child: Stack(
+                                      overflow: Overflow.visible,
+                                      children: <Widget>[
+                                        Positioned(
+                                          left: (index % 2 == 0) ? -30 : null,
+                                          right: (index % 2 != 0) ? -30 : null,
+                                          child: Container(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 5),
+                                                  horizontal: 5, vertical: 3),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
                                               child: Text(
-                                                newtrends[index].caption,
+                                                "DEEKSHITA JAIN",
                                                 style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.grey),
+                                                    fontSize: 16,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               )),
-                                          RaisedButton(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.zero),
-                                            onPressed: () {
-                                              print("view more");
-                                            },
-                                            child: Text("View More  ->"),
-                                          )
-                                        ]),
+                                        ),
+                                        Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: index % 2 == 0
+                                                ? CrossAxisAlignment.start
+                                                : CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                "The House of MBJ Bride",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  child: Text(
+                                                    newtrends[index].caption,
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.grey),
+                                                  )),
+                                              RaisedButton(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 40),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25)),
+                                                onPressed: () {
+                                                  print("view more");
+                                                },
+                                                child: Text(
+                                                  "READ MORE",
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              )
+                                            ])
+                                      ],
+                                    ),
                                   ))
                                 ]);
                           }))

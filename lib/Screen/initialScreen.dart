@@ -50,11 +50,29 @@ class _InitialState extends State<Initial> {
   int _selectedIndex = 0;
   String username;
   String phone;
+  bool isexpnaded = false;
 
   List socialitems = [
     "assets/images/drawer/FB.png",
     "assets/images/drawer/Insta.png",
     "assets/images/drawer/YOUTUBE.png",
+  ];
+  List expansionlist = [
+    {
+      "name": "GOLD COLLECTION",
+      "goto": "",
+      "licon": "assets/images/drawer/Gold.png"
+    },
+    {
+      "name": "DIAMOND COLLECTION",
+      "goto": "",
+      "licon": "assets/images/drawer/Diamond.png"
+    },
+    {
+      "name": "POLKI COLLECTION",
+      "goto": "",
+      "licon": "assets/images/drawer/Polki.png"
+    }
   ];
 
   void _onItemTapped(int index) {
@@ -66,7 +84,7 @@ class _InitialState extends State<Initial> {
   @override
   void initState() {
     super.initState();
-    print("initstate of drawer called");
+
     getUserdetail();
   }
 
@@ -132,11 +150,30 @@ class _InitialState extends State<Initial> {
               padding: EdgeInsets.only(top: 0),
               children: <Widget>[
                 buildDrawer(context),
-                buildListTile(context, {
-                  "name": "OUR COLLECTION",
-                  "goto": "",
-                  "licon": "assets/images/drawer/Jewellery_Icon.png"
-                }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: ExpansionTile(
+                      trailing: isexpnaded
+                          ? Icon(
+                              Icons.book,
+                              size: 14,
+                            )
+                          : Image.asset("assets/images/drawer/dropdown.png",
+                              height: 14),
+                      onExpansionChanged: (bool expanded) {
+                        setState(() {
+                          isexpnaded = expanded;
+                        });
+                      },
+                      title: Labelnavigation(info: {
+                        "name": "OUR COLLECTION",
+                        "goto": "",
+                        "licon": "assets/images/drawer/Jewellery_Icon.png"
+                      }),
+                      children: expansionlist
+                          .map((e) => buildListTile(context, e))
+                          .toList()),
+                ),
                 buildListTile(context, {
                   "name": "EXPERTISE",
                   "goto": "",
@@ -226,6 +263,7 @@ class _InitialState extends State<Initial> {
             ]),
             CircleAvatar(
               radius: 35,
+              backgroundImage: AssetImage("assets/images/background.png"),
             ),
             SizedBox(height: 8),
             Text(
@@ -245,21 +283,7 @@ class _InitialState extends State<Initial> {
   ListTile buildListTile(BuildContext context, info) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 40),
-      title: RichText(
-        text: TextSpan(children: [
-          WidgetSpan(
-              child: Padding(
-            padding: const EdgeInsets.only(right: 14.0),
-            child: Image.asset(info["licon"], height: 18.0),
-          )),
-          TextSpan(
-              text: info["name"],
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: Colors.black))
-        ]),
-      ),
+      title: Labelnavigation(info: info),
       onTap: () {
         Navigator.pop(context);
         Navigator.of(context)
@@ -282,6 +306,28 @@ class _InitialState extends State<Initial> {
                     child: Image.asset(e, height: 18),
                   ))
               .toList()),
+    );
+  }
+}
+
+class Labelnavigation extends StatelessWidget {
+  final info;
+  const Labelnavigation({Key key, this.info}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(children: [
+        WidgetSpan(
+            child: Padding(
+          padding: const EdgeInsets.only(right: 14.0),
+          child: Image.asset(info["licon"], height: 18.0),
+        )),
+        TextSpan(
+            text: info["name"],
+            style: TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 12, color: Colors.black))
+      ]),
     );
   }
 }

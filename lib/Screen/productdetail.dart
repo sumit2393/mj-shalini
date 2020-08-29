@@ -5,6 +5,7 @@ import '../provider/httpservices.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetail extends StatefulWidget {
   final productdata;
@@ -64,9 +65,9 @@ class ProductDetailState extends State<ProductDetail> {
                       height: 1.5,
                       width: 40.0,
                     ),
-                    Contactbutton(label: "CALL NOW"),
+                    Contactbutton(label: "CALL NOW", type: "call"),
                     SizedBox(height: 12),
-                    Contactbutton(label: "CHAT WITH WHATSAPP"),
+                    Contactbutton(label: "CHAT WITH WHATSAPP", type: "message"),
                   ],
                 ),
               ),
@@ -193,23 +194,23 @@ class ProductDetailState extends State<ProductDetail> {
                             imageUrl: widget.productdata.image.url,
                           ),
                         ))),
-                new Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                        height: 120,
-                        margin: EdgeInsets.symmetric(horizontal: 0),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: widget.productdata.thumbnails.length,
-                            itemBuilder: (context, index) {
-                              return jewellerybox(
-                                  zoomImage,
-                                  widget.productdata.thumbnails[index].url,
-                                  screenWidth);
-                            }))),
+                // new Positioned(
+                //     bottom: 0,
+                //     left: 0,
+                //     right: 0,
+                //     child: Container(
+                //         height: 120,
+                //         margin: EdgeInsets.symmetric(horizontal: 0),
+                //         child: ListView.builder(
+                //             shrinkWrap: true,
+                //             scrollDirection: Axis.horizontal,
+                //             itemCount: widget.productdata.thumbnails.length,
+                //             itemBuilder: (context, index) {
+                //               return jewellerybox(
+                //                   zoomImage,
+                //                   widget.productdata.thumbnails[index].url,
+                //                   screenWidth);
+                //             }))),
                 Positioned(
                     top: 16,
                     right: 16,
@@ -438,7 +439,8 @@ class ProductDetailState extends State<ProductDetail> {
 
 class Contactbutton extends StatelessWidget {
   final String label;
-  const Contactbutton({Key key, this.label}) : super(key: key);
+  final String type;
+  const Contactbutton({Key key, this.label, this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -451,6 +453,14 @@ class Contactbutton extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           color: Colors.white,
           onPressed: () {
+            print("m calling");
+            if (type == "call") {
+              launch("tel://18001039500");
+            } else {
+              print("do message");
+              FlutterOpenWhatsapp.sendSingleMessage("918179015345", "Hello");
+            }
+
             Navigator.pop(context);
           },
           child: Text(
