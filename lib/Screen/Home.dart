@@ -370,6 +370,14 @@ class _HomeState extends State<Home> {
                                                 ? CrossAxisAlignment.start
                                                 : CrossAxisAlignment.end,
                                             children: <Widget>[
+                                              SizedBox(height: 18),
+                                              Text("\u201D",
+                                                  style: TextStyle(
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .primaryColor)),
                                               Text(
                                                 "The House of MBJ Bride",
                                                 style: TextStyle(

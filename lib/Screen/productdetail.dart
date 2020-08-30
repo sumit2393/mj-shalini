@@ -6,6 +6,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class ProductDetail extends StatefulWidget {
   final productdata;
@@ -16,6 +17,7 @@ class ProductDetail extends StatefulWidget {
 class ProductDetailState extends State<ProductDetail> {
   final scaffoldState = GlobalKey<ScaffoldState>();
   int userid;
+  int _currentPageIndex = 0;
 
   @override
   void initState() {
@@ -177,23 +179,85 @@ class ProductDetailState extends State<ProductDetail> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 350,
+              height: 300,
               child: Stack(children: <Widget>[
                 Container(
                     width: double.infinity,
-                    height: 300,
+                    //height: 300,
                     color: Colors.white,
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                            bottom: 70, left: 60, right: 60, top: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            zoomImage(widget.productdata.image.url);
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: widget.productdata.image.url,
+                    child: PhotoViewGallery.builder(
+                      gaplessPlayback: true,
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      builder: (BuildContext context, int index) {
+                        return PhotoViewGalleryPageOptions(
+                          imageProvider: NetworkImage(
+                              widget.productdata.thumbnails[index].url),
+                          initialScale: PhotoViewComputedScale.contained * 0.8,
+                          // heroAttributes:
+                          //     HeroAttributes(tag: galleryItems[index].id),
+                        );
+                      },
+                      itemCount: widget.productdata.thumbnails.length,
+                      loadingBuilder: (context, event) => Center(
+                        child: Container(
+                          width: 20.0,
+                          height: 20.0,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.grey),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            value: event == null
+                                ? 0
+                                : event.cumulativeBytesLoaded /
+                                    event.expectedTotalBytes,
                           ),
-                        ))),
+                        ),
+                      ),
+                      backgroundDecoration: BoxDecoration(color: Colors.white),
+                      // backgroundDecoration: widget.backgroundDecoration,
+                      //  pageController: widget.pageController,
+                      onPageChanged: (int index) {
+                        print("index$index");
+                        setState(() {
+                          _currentPageIndex = index;
+                        });
+                      },
+                    )
+                    //  Padding(
+                    //     padding: EdgeInsets.only(
+                    //         bottom: 70, left: 60, right: 60, top: 20),
+                    //     child: GestureDetector(
+                    //       onTap: () {
+                    //         zoomImage(widget.productdata.image.url);
+                    //       },
+                    //       child: CachedNetworkImage(
+                    //         imageUrl: widget.productdata.image.url,
+                    //       ),
+                    //     ))
+                    ),
+                new Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                          widget.productdata.thumbnails.map<Widget>((url) {
+                        int index = widget.productdata.thumbnails.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentPageIndex == index
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey[300],
+                          ),
+                        );
+                      }).toList(),
+                    )),
                 // new Positioned(
                 //     bottom: 0,
                 //     left: 0,
