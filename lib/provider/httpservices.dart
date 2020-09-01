@@ -43,7 +43,8 @@ Future<Item> fetchMainCategories() async {
 Future<BannerItem> fetchBanners() async {
   final response = await http.get(mainUrl + banners);
   print(response.statusCode);
-  //print(response.body);
+  print("bodyyyy=====>>>>");
+  print(response.body);
   if (response.statusCode == 200) {
     return BannerItem.fromJson(json.decode(response.body));
   } else {
@@ -52,7 +53,8 @@ Future<BannerItem> fetchBanners() async {
 }
 
 Future<ProductList> fetchFeaturedProducts(userid) async {
-  final response = await http.get(mainUrl + featuredProducts + userid.toString());
+  final response =
+      await http.get(mainUrl + featuredProducts + userid.toString());
   print(response.statusCode);
   print(response.body);
   if (response.statusCode == 200) {
@@ -93,6 +95,7 @@ Future<ProductDetails> fetchProductdetails(id) async {
     throw Exception('Failed to load Categories');
   }
 }
+
 /////  @@@@@  productlist  @@@@@@@@@ ///
 Future<ProductList> fetchProductlist(id, userid) async {
   print("userd" + userid.toString());
@@ -119,7 +122,7 @@ Future<Wish> fetchWishlist(userid) async {
   }
 }
 
- Future requestCallback(userid, productid) async {
+Future requestCallback(userid, productid) async {
   print("Productid" + productid.toString());
   print("userid" + userid.toString());
   final response = await http.post(mainUrl + requestcall,

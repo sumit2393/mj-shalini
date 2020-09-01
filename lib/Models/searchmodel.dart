@@ -27,7 +27,7 @@ class Data {
   String designCode;
   num netWeight;
   num tagPrice;
-  int pieces;
+  num pieces;
   String articleNecklace;
   num pearlWeight;
   num kundanStones;
@@ -39,9 +39,7 @@ class Data {
   String colorStonePieces;
   num polkiWeight;
   String polkiPieces;
-  Null publishedAt;
-  String createdAt;
-  String updatedAt;
+
   bool addedToWishList;
   Image image;
   List<Thumbnails> thumbnails;
@@ -70,9 +68,6 @@ class Data {
       this.colorStonePieces,
       this.polkiWeight,
       this.polkiPieces,
-      this.publishedAt,
-      this.createdAt,
-      this.updatedAt,
       this.addedToWishList,
       this.image,
       this.thumbnails});
@@ -101,9 +96,7 @@ class Data {
     colorStonePieces = json['color_stone_pieces'];
     polkiWeight = json['polki_weight'];
     polkiPieces = json['polki_pieces'];
-    publishedAt = json['published_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+
     addedToWishList = json['addedToWishList'];
     image = json['image'] != null ? new Image.fromJson(json['image']) : null;
     if (json['thumbnails'] != null) {
@@ -120,24 +113,14 @@ class Image1 {
   String url;
   int imageableId;
   String imageableType;
-  String createdAt;
-  String updatedAt;
 
-  Image1(
-      {this.id,
-      this.url,
-      this.imageableId,
-      this.imageableType,
-      this.createdAt,
-      this.updatedAt});
+  Image1({this.id, this.url, this.imageableId, this.imageableType});
 
   Image1.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     url = json['url'];
     imageableId = json['imageable_id'];
     imageableType = json['imageable_type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -146,8 +129,7 @@ class Image1 {
     data['url'] = this.url;
     data['imageable_id'] = this.imageableId;
     data['imageable_type'] = this.imageableType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+
     return data;
   }
 }
@@ -156,18 +138,17 @@ class Thumbnails {
   int id;
   int productId;
   String url;
-  String createdAt;
-  String updatedAt;
 
-  Thumbnails(
-      {this.id, this.productId, this.url, this.createdAt, this.updatedAt});
+  Thumbnails({
+    this.id,
+    this.productId,
+    this.url,
+  });
 
   Thumbnails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     productId = json['product_id'];
     url = json['url'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -175,8 +156,7 @@ class Thumbnails {
     data['id'] = this.id;
     data['product_id'] = this.productId;
     data['url'] = this.url;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+
     return data;
   }
 }

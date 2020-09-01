@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductDetail extends StatefulWidget {
   final productdata;
@@ -185,56 +186,48 @@ class ProductDetailState extends State<ProductDetail> {
                     width: double.infinity,
                     //height: 300,
                     color: Colors.white,
-                    child: PhotoViewGallery.builder(
-                      gaplessPlayback: true,
-                      scrollPhysics: const BouncingScrollPhysics(),
-                      builder: (BuildContext context, int index) {
-                        return PhotoViewGalleryPageOptions(
-                          imageProvider: NetworkImage(
-                              widget.productdata.thumbnails[index].url),
-                          initialScale: PhotoViewComputedScale.contained * 0.8,
-                          // heroAttributes:
-                          //     HeroAttributes(tag: galleryItems[index].id),
-                        );
-                      },
-                      itemCount: widget.productdata.thumbnails.length,
-                      loadingBuilder: (context, event) => Center(
-                        child: Container(
-                          width: 20.0,
-                          height: 20.0,
-                          child: CircularProgressIndicator(
-                            valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.grey),
-                            backgroundColor: Theme.of(context).primaryColor,
-                            value: event == null
-                                ? 0
-                                : event.cumulativeBytesLoaded /
-                                    event.expectedTotalBytes,
-                          ),
-                        ),
-                      ),
-                      backgroundDecoration: BoxDecoration(color: Colors.white),
-                      // backgroundDecoration: widget.backgroundDecoration,
-                      //  pageController: widget.pageController,
-                      onPageChanged: (int index) {
-                        print("index$index");
-                        setState(() {
-                          _currentPageIndex = index;
-                        });
-                      },
-                    )
-                    //  Padding(
-                    //     padding: EdgeInsets.only(
-                    //         bottom: 70, left: 60, right: 60, top: 20),
-                    //     child: GestureDetector(
-                    //       onTap: () {
-                    //         zoomImage(widget.productdata.image.url);
-                    //       },
-                    //       child: CachedNetworkImage(
-                    //         imageUrl: widget.productdata.image.url,
-                    //       ),
-                    //     ))
-                    ),
+                    child: widget.productdata.thumbnails.length != 0
+                        ? CarouselSlider.builder(
+                            itemCount: widget.productdata.thumbnails.length,
+                            options: CarouselOptions(
+                              viewportFraction: 1.0,
+                              // aspectRatio: 1.0,
+                              height: 300,
+                              autoPlay: false,
+                              // autoPlay: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _currentPageIndex = index;
+                                });
+                              },
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 70, left: 60, right: 60, top: 20),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      zoomImage(widget
+                                          .productdata.thumbnails[index].url);
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget
+                                          .productdata.thumbnails[index].url,
+                                    ),
+                                  ));
+                            },
+                          )
+                        : Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 70, left: 60, right: 60, top: 20),
+                            child: GestureDetector(
+                              onTap: () {
+                                zoomImage(widget.productdata.image.url);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: widget.productdata.image.url,
+                              ),
+                            ))),
                 new Positioned(
                     left: 0,
                     right: 0,
@@ -258,23 +251,6 @@ class ProductDetailState extends State<ProductDetail> {
                         );
                       }).toList(),
                     )),
-                // new Positioned(
-                //     bottom: 0,
-                //     left: 0,
-                //     right: 0,
-                //     child: Container(
-                //         height: 120,
-                //         margin: EdgeInsets.symmetric(horizontal: 0),
-                //         child: ListView.builder(
-                //             shrinkWrap: true,
-                //             scrollDirection: Axis.horizontal,
-                //             itemCount: widget.productdata.thumbnails.length,
-                //             itemBuilder: (context, index) {
-                //               return jewellerybox(
-                //                   zoomImage,
-                //                   widget.productdata.thumbnails[index].url,
-                //                   screenWidth);
-                //             }))),
                 Positioned(
                     top: 16,
                     right: 16,
@@ -291,6 +267,7 @@ class ProductDetailState extends State<ProductDetail> {
                     ))
               ]),
             ),
+            // Text(widget.productdata.thumbnails.length().toString()),
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 35),
                 child: Text(
@@ -299,14 +276,14 @@ class ProductDetailState extends State<ProductDetail> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 )),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                Text("\u20B9" + widget.productdata.price.toString(),
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Text("\u20B9" + widget.productdata.tagPrice.toString(),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     )),
-                Text("\u20B9" + widget.productdata.tagPrice.toString(),
-                    style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+                //   Text("\u20B9" + widget.productdata.tagPrice.toString(),
+                //       style: TextStyle(color: Colors.grey[400], fontSize: 12)),
               ]),
               SizedBox(
                 width: 20,

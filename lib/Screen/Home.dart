@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
           }),
           carousellist = value.upcomingDesigns,
           newtrends = value.newTrends,
+          print(newtrends)
         });
   }
 
@@ -309,13 +310,39 @@ class _HomeState extends State<Home> {
                               fit: BoxFit.cover,
                               image:
                                   AssetImage("assets/images/Homepage/5.png")))),
-                  Text(
-                    "MBJ COFFEE BREAK",
+                  // Text(
+                  //   "MBJ COFFEE BREAK",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  // ),
+                  RichText(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    text: TextSpan(
+                      text: 'MBJ C',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                      children: [
+                        WidgetSpan(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                          child: Image.asset(
+                            "assets/images/home/coffee.png",
+                            height: 24,
+                          ),
+                        )),
+                        TextSpan(
+                            text: 'FFEE BREAK',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
+                      ],
+                    ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 40),
+                      margin: EdgeInsets.only(top: 40, bottom: 20),
                       color: Colors.white,
                       child: ListView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -330,18 +357,26 @@ class _HomeState extends State<Home> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Container(
-                                    height: 150,
+                                    height: 220,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             fit: BoxFit.cover,
-                                            image: NetworkImage(
+                                            image: CachedNetworkImageProvider(
                                                 newtrends[index].image_path))),
                                   )),
                                   Expanded(
                                       child: Container(
                                     color: Colors.white,
-                                    margin: EdgeInsets.only(left: 15, top: 20),
-                                    height: 150,
+                                    padding:
+                                        EdgeInsets.only(top: 20, bottom: 12),
+                                    margin: index % 2 == 0
+                                        ? EdgeInsets.only(
+                                            left: 15,
+                                          )
+                                        : EdgeInsets.only(
+                                            right: 15,
+                                          ),
+                                    height: 220,
                                     child: Stack(
                                       overflow: Overflow.visible,
                                       children: <Widget>[
@@ -352,6 +387,9 @@ class _HomeState extends State<Home> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 5, vertical: 3),
                                               decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 2.0,
+                                                      color: Colors.white),
                                                   color: Theme.of(context)
                                                       .primaryColor),
                                               child: Text(
@@ -364,13 +402,25 @@ class _HomeState extends State<Home> {
                                               )),
                                         ),
                                         Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.end,
                                             crossAxisAlignment: index % 2 == 0
                                                 ? CrossAxisAlignment.start
                                                 : CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              SizedBox(height: 18),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 35.0),
+                                                child: Text(
+                                                  "The House of MBJ Bride",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              SizedBox(height: 5),
                                               Text("\u201D",
                                                   style: TextStyle(
                                                       fontSize: 28,
@@ -378,23 +428,21 @@ class _HomeState extends State<Home> {
                                                           FontWeight.bold,
                                                       color: Theme.of(context)
                                                           .primaryColor)),
-                                              Text(
-                                                "The House of MBJ Bride",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                              Expanded(
+                                                child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5),
+                                                    child: Text(
+                                                      newtrends[index].caption,
+                                                      maxLines: 3,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    )),
                                               ),
-                                              Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                                  child: Text(
-                                                    newtrends[index].caption,
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey),
-                                                  )),
                                               RaisedButton(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 40),
@@ -408,7 +456,7 @@ class _HomeState extends State<Home> {
                                                 child: Text(
                                                   "READ MORE",
                                                   style:
-                                                      TextStyle(fontSize: 12),
+                                                      TextStyle(fontSize: 11),
                                                 ),
                                               )
                                             ])
